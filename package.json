@@ -20,5 +20,16 @@
   "bugs": {
     "url": "https://github.com/viscousmink/LargeProjectCOP4331/issues"
   },
-  "homepage": "https://github.com/viscousmink/LargeProjectCOP4331#readme"
+  "homepage": "https://github.com/viscousmink/LargeProjectCOP4331#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongo-sanitize": "^1.0.1",
+    "mongodb": "^3.5.3",
+    "mongoose": "^5.8.11",
+    "nodemailer": "^6.4.2",
+    "path": "^0.12.7"
+  }
 }
