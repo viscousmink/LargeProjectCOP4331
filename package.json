@@ -1,0 +1,24 @@
+{
+  "name": "largeprojectcop4331",
+  "version": "1.0.0",
+  "description": "<h1> Let's Hit the ground running! </h1>",
+  "main": "server.js",
+  "scripts": {
+    "test": "node server",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/viscousmink/LargeProjectCOP4331.git"
+  },
+  "keywords": [
+    "Large",
+    "Project"
+  ],
+  "author": "Group8",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/viscousmink/LargeProjectCOP4331/issues"
+  },
+  "homepage": "https://github.com/viscousmink/LargeProjectCOP4331#readme"
+}
