@@ -45,7 +45,23 @@ router.post('/emailverification', async(req, res, next) => {
 
 	var err = '';
 
+	const db = client.db();
 
+	const code = sanitize(req.body.vericode);
+
+	const user = await db.collection('Users').findOne({"vericode": code});
+
+	const update = {
+		$set: {
+			user: user.user,
+			password: user.password,
+			email: user.email,
+			vericode: 0,
+			verified: true
+		}
+	};
+
+	const result = await db.collection('Users').updateOne(user, update, { upsert: true });
 
 	var ret = { error: err };
 	res.status(200).json(ret);
@@ -67,7 +83,17 @@ router.post('/register', async(req, res, next) => {
 		var salt = bcrypt.genSaltSync(10);
 		var hash = bcrypt.hashSync(password, salt);
 
-		const code = Math.floor(100000 + Math.random() * 900000);
+		var code = Math.floor(100000 + Math.random() * 900000);
+
+		var flag = true;
+		while(flag) {
+			var randomCheck = await db.collection('Users').findOne({"vericode": code});
+			if(randomCheck) {
+				code = Math.floor(100000 + Math.random() * 900000);
+			} else {
+				flag = false;
+			}
+		}
 
 		const newUser = {
 			_id: new mongoose.Types.ObjectId(),
