@@ -7,11 +7,25 @@ const database = require('../database.js');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const MongoClient = require('mongodb').MongoClient;
+
 const client = new MongoClient(database.URL, {
 	useUnifiedTopology: true,
 	connectTimeoutMS: 1000
 });
+
 require('dotenv').config();
+
+
+/* 
+	TODO:
+		LOGIN:
+			Login using Json Web Tokens.
+		REGISTER:
+			Make sure it works geo-independent
+
+	COMPLETE:
+		EMAILVERIFCATION (the endpoint not the actual activity done in register)
+*/
 
 //connecting to the server
 client.connect(function(err, db) {
@@ -39,6 +53,7 @@ router.use(bodyParser.urlencoded({ extended: false }));
 	-- Login
 		takes {"user": "<user>", "password": "<password>"}
 		responds with {"error": <err>}
+		Need JWT implemented
 */
 
 router.post('/emailverification', async(req, res, next) => {
