@@ -7,6 +7,7 @@ const database = require('../database.js');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const MongoClient = require('mongodb').MongoClient;
+const jwt = require('jsonwebtoken');
 
 const client = new MongoClient(database.URL, {
 	useUnifiedTopology: true,
@@ -14,7 +15,6 @@ const client = new MongoClient(database.URL, {
 });
 
 require('dotenv').config();
-
 
 /*
 	TODO:
@@ -55,6 +55,27 @@ router.use(bodyParser.urlencoded({ extended: false }));
 		responds with {"error": <err>}
 		Need JWT implemented
 */
+
+const authenticateJWT = (req, res, next) => {
+    const authHeader = req.headers.authorization;
+
+    if (authHeader) {
+        const token = authHeader.split(' ')[1];
+
+		const accessTokenSecret = process.env.
+
+        jwt.verify(token, accessTokenSecret, (err, user) => {
+            if (err) {
+                return res.sendStatus(403);
+            }
+
+            req.user = user;
+            next();
+        });
+    } else {
+        res.sendStatus(401);
+    }
+};
 
 router.post('/emailverification', async(req, res, next) => {
 
@@ -167,6 +188,33 @@ router.post('/createpublicrecipe', async(req, res, next) => {
 	const newPublicRecipe = {
 		_id: new mongoose.Types.ObjectId(),
 		creator: user,
+		name: name,
+		date: date,
+		ingredients: ingredients,
+		instructions: instructions
+	};
+	const db = client.db();
+	var err = '';
+	try {
+		const result = await db.collection('PublicRecipes').insertOne(newPublicRecipe);
+	} catch(e) {
+		err = e.toString();
+	}
+	var ret = {error: err};
+	res.status(200).json(ret);
+});
+
+router.post('createprivaterecipe', async(req, res, next) => {
+	const name = sanitize(req.body.name);
+	const fk = sanitize(req.body.fk);
+	const date = sanitize(req.body.date);
+	const ingredients = sanitize(req.body.ingredients);
+	const instructions = sanitize(req.body.instructions);
+
+	const newPublicRecipe = {
+		_id: new mongoose.Types.ObjectId(),
+		foreignKey: fk,
+		name: name,
 		date: date,
 		ingredients: ingredients,
 		instructions: instructions
