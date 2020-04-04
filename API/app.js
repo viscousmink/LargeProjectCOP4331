@@ -137,7 +137,8 @@ router.post('/register', async(req, res, next) => {
 			password: hash,
 			email: email,
 			verified: false,
-			vericode: code
+			vericode: code,
+			following: []
 		};
 
 		var err = '';
@@ -179,11 +180,17 @@ router.post('/register', async(req, res, next) => {
 });
 
 router.post('/createpublicrecipe', async(req, res, next) => {
-	const name = sanitize(req.body.name);
+	const title = sanitize(req.body.title);
+	const description = sanitize(req.body.description);
+	const servings = sanitize(req.body.servings);
+	const time = sanitize(req.body.time);
+	const store = sanitize(req.body.store);
+	const numIngredients = sanitize(req.body.numIngredients);
+	const numSteps = sanitize(req.body.numSteps);
 	const user = sanitize(req.body.user);
 	const date = sanitize(req.body.date);
 	const ingredients = sanitize(req.body.ingredients);
-	const instructions = sanitize(req.body.instructions);
+	const steps = sanitize(req.body.steps);
 
 	const newPublicRecipe = {
 		_id: new mongoose.Types.ObjectId(),
@@ -191,7 +198,7 @@ router.post('/createpublicrecipe', async(req, res, next) => {
 		name: name,
 		date: date,
 		ingredients: ingredients,
-		instructions: instructions
+		steps: steps
 	};
 	const db = client.db();
 	var err = '';
@@ -233,7 +240,7 @@ router.post('createprivaterecipe', async(req, res, next) => {
 // Login Route... the user logging in will recieve a token that they will have to save on the front end side,
 //    and then the user will use that token to gain access to the other protected routes
 router.post('/login', (req, res) => {
-	// Here we get the user from the database after authenticating 
+	// Here we get the user from the database after authenticating
 	const user = sanitize(req.body.user);
 	const password = sanitize(req.body.password);
 
