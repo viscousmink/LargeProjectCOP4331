@@ -230,4 +230,22 @@ router.post('createprivaterecipe', async(req, res, next) => {
 	res.status(200).json(ret);
 });
 
+// Login Route... the user logging in will recieve a token that they will have to save on the front end side,
+//    and then the user will use that token to gain access to the other protected routes
+router.post('/login', (req, res) => {
+	// Here we get the user from the database after authenticating 
+	const user = sanitize(req.body.user);
+	const password = sanitize(req.body.password);
+
+	// I think we need to implement verification/authorization in this login route and the other routes?
+
+	// Pass the user and the secret key, and get an error if there is one or else get the token:
+	jwt.sign({user: user}, 'secretkey', (err, token) => {
+		//Res.json({}) we send the token that the user will save on the front end to access protected routes:
+		res.json({
+			token: token
+		});
+	});
+});
+
 module.exports = router;
