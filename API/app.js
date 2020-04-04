@@ -211,31 +211,6 @@ router.post('/createpublicrecipe', async(req, res, next) => {
 	res.status(200).json(ret);
 });
 
-router.post('createprivaterecipe', async(req, res, next) => {
-	const name = sanitize(req.body.name);
-	const fk = sanitize(req.body.fk);
-	const date = sanitize(req.body.date);
-	const ingredients = sanitize(req.body.ingredients);
-	const instructions = sanitize(req.body.instructions);
-
-	const newPublicRecipe = {
-		_id: new mongoose.Types.ObjectId(),
-		foreignKey: fk,
-		name: name,
-		date: date,
-		ingredients: ingredients,
-		instructions: instructions
-	};
-	const db = client.db();
-	var err = '';
-	try {
-		const result = await db.collection('PublicRecipes').insertOne(newPublicRecipe);
-	} catch(e) {
-		err = e.toString();
-	}
-	var ret = {error: err};
-	res.status(200).json(ret);
-});
 
 // Login Route... the user logging in will recieve a token that they will have to save on the front end side,
 //    and then the user will use that token to gain access to the other protected routes
