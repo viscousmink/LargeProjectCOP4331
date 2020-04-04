@@ -16,7 +16,7 @@ const client = new MongoClient(database.URL, {
 require('dotenv').config();
 
 
-/* 
+/*
 	TODO:
 		LOGIN:
 			Login using Json Web Tokens.
@@ -86,7 +86,7 @@ router.post('/register', async(req, res, next) => {
 	const user = sanitize(req.body.user);
 	const password = sanitize(req.body.password);
 	const email = sanitize(req.body.email);
-	
+
 	const db = client.db();
 
 	const userNameCheck = await db.collection('Users').findOne({"user": user});
@@ -155,6 +155,31 @@ router.post('/register', async(req, res, next) => {
 		var ret = { error: err };
 		res.status(200).json(ret);
 	}
+});
+
+router.post('/createpublicrecipe', async(req, res, next) => {
+	const name = sanitize(req.body.name);
+	const user = sanitize(req.body.user);
+	const date = sanitize(req.body.date);
+	const ingredients = sanitize(req.body.ingredients);
+	const instructions = sanitize(req.body.instructions);
+
+	const newPublicRecipe = {
+		_id: new mongoose.Types.ObjectId(),
+		creator: user,
+		date: date,
+		ingredients: ingredients,
+		instructions: instructions
+	};
+	const db = client.db();
+	var err = '';
+	try {
+		const result = await db.collection('PublicRecipes').insertOne(newPublicRecipe);
+	} catch(e) {
+		err = e.toString();
+	}
+	var ret = {error: err};
+	res.status(200).json(ret);
 });
 
 module.exports = router;
