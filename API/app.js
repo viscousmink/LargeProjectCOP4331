@@ -62,9 +62,9 @@ const authenticateJWT = (req, res, next) => {
     if (authHeader) {
         const token = authHeader.split(' ')[1];
 
-		const accessTokenSecret = process.env.
+		const secretKey = process.env.accessTokenSecret;
 
-        jwt.verify(token, accessTokenSecret, (err, user) => {
+        jwt.verify(token, secretKey, (err, user) => {
             if (err) {
                 return res.sendStatus(403);
             }
@@ -221,8 +221,9 @@ router.post('/login', (req, res) => {
 
 	// I think we need to implement verification/authorization in this login route and the other routes?
 
+	const secretKey = process.env.accessTokenSecret;
 	// Pass the user and the secret key, and get an error if there is one or else get the token:
-	jwt.sign({user: user}, 'secretkey', (err, token) => {
+	jwt.sign({user: user}, secretKey, (err, token) => {
 		//Res.json({}) we send the token that the user will save on the front end to access protected routes:
 		res.json({
 			token: token
