@@ -69,7 +69,7 @@ const authenticateJWT = (req, res, next) => {
                 return res.sendStatus(403);
             }
 
-            req.user = user;
+            //req.user = user;
             next();
         });
     } else {
