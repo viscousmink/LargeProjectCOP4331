@@ -214,21 +214,36 @@ router.post('/createpublicrecipe', async(req, res, next) => {
 
 // Login Route... the user logging in will recieve a token that they will have to save on the front end side,
 //    and then the user will use that token to gain access to the other protected routes
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
 	// Here we get the user from the database after authenticating
 	const user = sanitize(req.body.user);
 	const password = sanitize(req.body.password);
 
 	// I think we need to implement verification/authorization in this login route and the other routes?
 
-	const secretKey = process.env.accessTokenSecret;
-	// Pass the user and the secret key, and get an error if there is one or else get the token:
-	jwt.sign({user: user}, secretKey, (err, token) => {
-		//Res.json({}) we send the token that the user will save on the front end to access protected routes:
-		res.json({
-			token: token
-		});
-	});
+	const db = client.db();
+
+	const result = await db.collection('Users').findOne({user: user});
+	var err = '';
+
+	if(result != null) {
+		if(bcrypt.compareSync(password, result.password) == true) {
+			const secretKey = process.env.accessTokenSecret;
+			jwt.sign({user: user}, secretKey, (err, token) => {
+				//Res.json({}) we send the token that the user will save on the front end to access protected routes:
+				res.json({
+					token: token
+				});
+			});
+			console.log(user);
+		} else {
+			err = 'not_correct_password';
+			res.json({error: err});
+		}
+	} else {
+		err = 'not_correct_user';
+		res.json({error: err});
+	}
 });
 
 module.exports = router;
