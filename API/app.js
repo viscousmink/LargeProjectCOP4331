@@ -246,25 +246,29 @@ router.get('/allrecipes', async(req, res, next) => {
  *         description: error values
  */
 router.post('/createrecipe', async(req, res, next) => {
+	const id = sanitize(req.body.id);
 	const title = sanitize(req.body.title);
 	const description = sanitize(req.body.description);
 	const servings = sanitize(req.body.servings);
 	const time = sanitize(req.body.time);
 	const store = sanitize(req.body.store);
-	const numIngredients = sanitize(req.body.numIngredients);
-	const numSteps = sanitize(req.body.numSteps);
-	const user = sanitize(req.body.user);
-	const date = sanitize(req.body.date);
+	const creator = sanitize(req.body.creator);
 	const ingredients = sanitize(req.body.ingredients);
 	const steps = sanitize(req.body.steps);
+	const likes = sanitize(req.body.likes);
 
 	const newPublicRecipe = {
 		_id: new mongoose.Types.ObjectId(),
-		creator: user,
-		name: name,
-		date: date,
+		id: id,
+		title: title,
+		description: description,
+		servings: servings,
+		time: time,
+		store: store,
+		creator: creator,
 		ingredients: ingredients,
-		steps: steps
+		steps: steps,
+		likes: likes
 	};
 	const db = client.db();
 	var err = '';
