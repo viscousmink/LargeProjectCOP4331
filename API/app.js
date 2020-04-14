@@ -77,6 +77,25 @@ const authenticateJWT = (req, res, next) => {
     }
 };
 
+/**
+ * @swagger
+ * /api/emailverification:
+ *   post:
+ *     tags:
+ *       - Email Verification
+ *     description: Creates a user and sends an email to verify the user is human.
+ *     parameters:
+ *       - name: vericode
+ *         description: User's verification code
+ *         in: path
+ *         required: true
+ *         type: integer
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: error values
+ */
 router.post('/emailverification', async(req, res, next) => {
 
 	var err = '';
@@ -106,10 +125,26 @@ router.post('/emailverification', async(req, res, next) => {
 /**
  * @swagger
  * /api/register:
- *   get:
+ *   post:
  *     tags:
  *       - Register
  *     description: Creates a user and sends an email to verify the user is human.
+ *     parameters:
+ *       - name: user
+ *         description: User's username
+ *         in: path
+ *         required: true
+ *         type: string
+ *       - name: password
+ *         description: User's password
+ *         in: path
+ *         required: true
+ *         type: string
+ *       - name: email
+ *         description: User's email
+ *         in: path
+ *         required: true
+ *         type: string
  *     produces:
  *       - application/json
  *     responses:
@@ -192,7 +227,21 @@ router.post('/register', async(req, res, next) => {
 	}
 });
 
-router.post('/createpublicrecipe', async(req, res, next) => {
+/**
+ * @swagger
+ * /api/createrecipe:
+ *   post:
+ *     tags:
+ *       - CreateRecipe
+ *     description: Creates a recipe and stores it in the db
+ *     parameters:
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: error values
+ */
+router.post('/createrecipe', async(req, res, next) => {
 	const title = sanitize(req.body.title);
 	const description = sanitize(req.body.description);
 	const servings = sanitize(req.body.servings);
@@ -224,15 +273,34 @@ router.post('/createpublicrecipe', async(req, res, next) => {
 	res.status(200).json(ret);
 });
 
-
-// Login Route... the user logging in will recieve a token that they will have to save on the front end side,
-//    and then the user will use that token to gain access to the other protected routes
+/**
+ * @swagger
+ * /api/login:
+ *   post:
+ *     tags:
+ *       - Login
+ *     description: Creates a user and sends an email to verify the user is human.
+ *     parameters:
+ *       - name: user
+ *         description: User's username
+ *         in: path
+ *         required: true
+ *         type: string
+ *       - name: password
+ *         description: User's password
+ *         in: path
+ *         required: true
+ *         type: string
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: error values
+ */
 router.post('/login', async (req, res) => {
-	// Here we get the user from the database after authenticating
+
 	const user = sanitize(req.body.user);
 	const password = sanitize(req.body.password);
-
-	// I think we need to implement verification/authorization in this login route and the other routes?
 
 	const db = client.db();
 
