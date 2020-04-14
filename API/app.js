@@ -31,6 +31,10 @@ client.connect(function(err, db) {
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
 
+router.post('/testingAuth', authenticateJWT, async(req, res, next) => {
+	res.status(200).json({"gotHere": "here"});
+});
+
 const authenticateJWT = (req, res, next) => {
     const authHeader = req.headers.authorization;
 
@@ -216,7 +220,7 @@ router.post('/register', async(req, res, next) => {
  *       200:
  *         description: error values
  */
-router.get('/allrecipes', async(req, res, next) => {
+router.get('/allrecipes', authenticateJWT, async(req, res, next) => {
 	const db = client.db();
 
 	var err = '';
@@ -295,7 +299,7 @@ router.get('/allrecipes', async(req, res, next) => {
  *       200:
  *         description: error values
  */
-router.post('/createrecipe', async(req, res, next) => {
+router.post('/createrecipe', authenticateJWT, async(req, res, next) => {
 	const id = sanitize(req.body.id);
 	const title = sanitize(req.body.title);
 	const description = sanitize(req.body.description);
