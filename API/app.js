@@ -311,7 +311,7 @@ router.post('/login', async (req, res) => {
 	const result = await db.collection('Users').findOne({user: user});
 	var err = '';
 
-	if(result != null) {
+	if(result != null || result.verified == false) {
 		if(bcrypt.compareSync(password, result.password) == true) {
 			const secretKey = process.env.accessTokenSecret;
 			jwt.sign({user: user}, secretKey, (err, token) => {
