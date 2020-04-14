@@ -103,6 +103,19 @@ router.post('/emailverification', async(req, res, next) => {
 	res.status(200).json(ret);
 });
 
+/**
+ * @swagger
+ * /api/register:
+ *   get:
+ *     tags:
+ *       - Register
+ *     description: Creates a user and sends an email to verify the user is human.
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: error values
+ */
 router.post('/register', async(req, res, next) => {
 	const user = sanitize(req.body.user);
 	const password = sanitize(req.body.password);
