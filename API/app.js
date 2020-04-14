@@ -16,17 +16,6 @@ const client = new MongoClient(database.URL, {
 
 require('dotenv').config();
 
-/*
-	TODO:
-		LOGIN:
-			Login using Json Web Tokens.
-		REGISTER:
-			Make sure it works geo-independent
-
-	COMPLETE:
-		EMAILVERIFCATION (the endpoint not the actual activity done in register)
-*/
-
 //connecting to the server
 client.connect(function(err, db) {
 	if (err) {
@@ -41,20 +30,6 @@ client.connect(function(err, db) {
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
-
-/* Possible Requests
-	-- Email Verification
-		Takes json of verification code {"vericode": <vericode>}
-		updates corresponding vericode in db to {"verified": true}
-	-- Register:
-		Take a JSON of new user info, {"user": "<user>", "email": "<email>", "password": "<password>"}
-		Sends email to the new user's email in order to verify account creation
-		Stores in db {"user": "<user>", "email": "<email>", "password": "<password>", "verified": false, "vericode":<vericode>}
-	-- Login
-		takes {"user": "<user>", "password": "<password>"}
-		responds with {"error": <err>}
-		Need JWT implemented
-*/
 
 const authenticateJWT = (req, res, next) => {
     const authHeader = req.headers.authorization;
