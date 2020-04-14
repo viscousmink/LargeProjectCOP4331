@@ -6,6 +6,29 @@ const database = require('./database.js');
 const path = require('path');
 
 const app = express();
+const swaggerJSDoc = require('swagger-jsdoc');
+
+const swaggerDefinition = {
+	info: {
+		title: 'Food Manager UCF API',
+		version: '1.0.0',
+		description: 'API for the Food Manager COP4331 Large Project'
+	},
+	host: 'https://largeprojectapifoodmanager.herokuapp.com/',
+	basePath: '/'
+};
+
+const options = {
+	swaggerDefinition: swaggerDefinition,
+	apis: ['./API/*.js']
+}
+
+var swaggerSpec = swaggerJSDoc(options);
+
+app.get('/swagger.json', function(req, res) {
+	res.setHeader('Content-Type', 'application/json');
+	res.send(swaggerSpec);
+})
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
