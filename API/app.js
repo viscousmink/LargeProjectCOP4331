@@ -62,7 +62,7 @@ const authenticateJWT = (req, res, next) => {
  *     parameters:
  *       - name: vericode
  *         description: User's verification code
- *         in: path
+ *         in: body
  *         required: true
  *         type: integer
  *     produces:
@@ -107,17 +107,17 @@ router.post('/emailverification', async(req, res, next) => {
  *     parameters:
  *       - name: user
  *         description: User's username
- *         in: path
+ *         in: body
  *         required: true
  *         type: string
  *       - name: password
  *         description: User's password
- *         in: path
+ *         in: body
  *         required: true
  *         type: string
  *       - name: email
  *         description: User's email
- *         in: path
+ *         in: body
  *         required: true
  *         type: string
  *     produces:
@@ -204,6 +204,35 @@ router.post('/register', async(req, res, next) => {
 
 /**
  * @swagger
+ * /api/allrecipes:
+ *   get:
+ *     tags:
+ *       - Gets all recipes
+ *     description: Gets an array of all recipes in the db.
+ *     parameters:
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: error values
+ */
+router.get('/allrecipes', async(req, res, next) => {
+	const db = client.db();
+
+	var err = '';
+
+	const results = await db.collection('PublicRecipes').find({}).toArray();
+	var _ret = [];
+	for(var i = 0; i < results.length; i++) {
+		_ret.push(results[i]);
+	}
+	var ret = {results: _ret, error: err};
+
+	res.status(200).json(ret);
+});
+
+/**
+ * @swagger
  * /api/createrecipe:
  *   post:
  *     tags:
@@ -258,12 +287,12 @@ router.post('/createrecipe', async(req, res, next) => {
  *     parameters:
  *       - name: user
  *         description: User's username
- *         in: path
+ *         in: body
  *         required: true
  *         type: string
  *       - name: password
  *         description: User's password
- *         in: path
+ *         in: body
  *         required: true
  *         type: string
  *     produces:
