@@ -239,6 +239,56 @@ router.get('/allrecipes', async(req, res, next) => {
  *       - CreateRecipe
  *     description: Creates a recipe and stores it in the db
  *     parameters:
+ *       - name: id
+ *         description: id
+ *         in: body
+ *         required: true
+ *         type: string
+ *       - name: title
+ *         description: Title of the recipe
+ *         in: body
+ *         required: true
+ *         type: string
+ *       - name: description
+ *         description: description of the recipes
+ *         in: body
+ *         required: true
+ *         type: string
+ *       - name: servings
+ *         description: number of servings in the recipe
+ *         in: body
+ *         required: true
+ *         type: integer
+ *       - name: time
+ *         description: amount of time required to make the recipe
+ *         in: body
+ *         required: true
+ *         type: string
+ *       - name: store
+ *         description: place to purchase the ingredients
+ *         in: body
+ *         required: true
+ *         type: string
+ *       - name: creator
+ *         description: person who created the recipe
+ *         in: body
+ *         required: true
+ *         type: string
+ *       - name: ingredients
+ *         description: array of ingredients
+ *         in: body
+ *         required: true
+ *         type: array
+ *       - name: steps
+ *         description: array of steps
+ *         in: body
+ *         required: true
+ *         type: array
+ *       - name: likes
+ *         description: number of likes
+ *         in: body
+ *         required: true
+ *         type: integer
  *     produces:
  *       - application/json
  *     responses:
