@@ -31,10 +31,6 @@ client.connect(function(err, db) {
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
 
-router.post('/testingAuth', authenticateJWT, async(req, res, next) => {
-	res.status(200).json({"gotHere": "here"});
-});
-
 const authenticateJWT = (req, res, next) => {
     const authHeader = req.headers.authorization;
 
@@ -55,6 +51,10 @@ const authenticateJWT = (req, res, next) => {
         res.sendStatus(401);
     }
 };
+
+router.post('/testingAuth', authenticateJWT, async(req, res, next) => {
+	res.status(200).json({"gotHere": "here"});
+});
 
 /**
  * @swagger
