@@ -83,19 +83,19 @@ router.post('/emailverification', async(req, res, next) => {
 
 	const code = sanitize(req.body.vericode);
 
-	const user = await db.collection('Users').findOne({"vericode": code});
+	const username = await db.collection('Users').findOne({"vericode": code});
 
 	const update = {
 		$set: {
-			user: user.user,
-			password: user.password,
-			email: user.email,
+			username: username.username,
+			password: username.password,
+			email: username.email,
 			vericode: 0,
 			verified: true
 		}
 	};
 
-	const result = await db.collection('Users').updateOne(user, update, { upsert: true });
+	const result = await db.collection('Users').updateOne(username, update, { upsert: true });
 
 	var ret = { error: err };
 	res.status(200).json(ret);
@@ -131,13 +131,13 @@ router.post('/emailverification', async(req, res, next) => {
  *         description: error values
  */
 router.post('/register', async(req, res, next) => {
-	const user = sanitize(req.body.user);
+	const username = sanitize(req.body.username);
 	const password = sanitize(req.body.password);
 	const email = sanitize(req.body.email);
 
 	const db = client.db();
 
-	const userNameCheck = await db.collection('Users').findOne({"user": user});
+	const userNameCheck = await db.collection('Users').findOne({"username": username});
 	if(userNameCheck) {
 		var err = 'user_name_taken';
 		var ret = { error: err };
@@ -160,7 +160,7 @@ router.post('/register', async(req, res, next) => {
 
 		const newUser = {
 			_id: new mongoose.Types.ObjectId(),
-			user: user,
+			username: username,
 			password: hash,
 			email: email,
 			verified: false,
@@ -255,15 +255,15 @@ router.get('/allrecipes', authenticateJWT, async(req, res, next) => {
  *         description: error values
  */
 router.get('/userrecipes', authenticateJWT, async(req, res, next) => {
-	console.log(req.query['user']);
+	console.log(req.query['username']);
 
-	const user = req.query['user'];
+	const username = req.query['username'];
 
 	const db = client.db();
 
 	var err = '';
 
-	const results = await db.collection('PublicRecipes').find({creator: user}).toArray();
+	const results = await db.collection('PublicRecipes').find({creator: username}).toArray();
 	console.log(results);
 	var _ret = [];
 	for(var i = 0; i<results.length; i++) {
@@ -400,12 +400,12 @@ router.post('/createrecipe', authenticateJWT, async(req, res, next) => {
  */
 router.post('/login', async (req, res) => {
 
-	const user = sanitize(req.body.user);
+	const username = sanitize(req.body.username);
 	const password = sanitize(req.body.password);
 
 	const db = client.db();
 
-	const result = await db.collection('Users').findOne({user: user});
+	const result = await db.collection('Users').findOne({username: username});
 	var err = '';
 
 	if(result != null && result.verified == true) {
