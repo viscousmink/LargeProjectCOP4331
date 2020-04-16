@@ -235,6 +235,26 @@ router.get('/allrecipes', authenticateJWT, async(req, res, next) => {
 	res.status(200).json(ret);
 });
 
+router.get('/userrecipes', authenticateJWT, async(req, res, next) => {
+	console.log(req.query['user']);
+
+	const user = req.query['user'];
+
+	const db = client.db();
+
+	var err = '';
+
+	const results = await db.collection('PublicRecipes').find({creator: user}).toArray();
+	console.log(results);
+	var _ret = [];
+	for(var i = 0; i<results.length; i++) {
+		_ret.push(results[i]);
+	}
+	var ret = {results: _ret, error: err};
+
+	res.status(200).json(ret);
+});
+
 /**
  * @swagger
  * /api/createrecipe:
