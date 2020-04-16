@@ -411,13 +411,13 @@ router.post('/login', async (req, res) => {
 	if(result != null && result.verified == true) {
 		if(bcrypt.compareSync(password, result.password) == true) {
 			const secretKey = process.env.accessTokenSecret;
-			jwt.sign({user: user}, secretKey, (err, token) => {
+			jwt.sign({username: username}, secretKey, (err, token) => {
 				//Res.json({}) we send the token that the user will save on the front end to access protected routes:
 				res.json({
 					token: token
 				});
 			});
-			console.log(user);
+			console.log(username);
 		} else {
 			err = 'not_correct_password';
 			res.json({error: err});
