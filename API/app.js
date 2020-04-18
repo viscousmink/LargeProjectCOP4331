@@ -389,6 +389,25 @@ router.post('/deleterecipe', authenticateJWT, async(req, res, next) => {
 	res.status(200).json({"error": err});
 });
 
+router.get('/searchrecipe', authenticateJWT, async(req, res, next) => {
+	const title = req.query['title'];
+	const db = client.db();
+
+	const results = await db.collection('PublicRecipes').find().toArray();
+
+	var err = '';
+
+	var _ret = [];
+	for(var i = 0; i<results.length; i++) {
+		if(results[i].title.toLowerCase().includes(title.toLowerCase())){
+			_ret.push(results[i]);
+		}
+	}
+	var ret = {results: _ret, error: err};
+
+	res.status(200).json(ret);
+});
+
 router.post('/modifyrecipe', authenticateJWT, async(req, res, next) => {
 	const _id = sanitize(req.body._id);
 	const id = sanitize(req.body.id);
