@@ -237,7 +237,7 @@ router.get('/allrecipes', authenticateJWT, async(req, res, next) => {
 
 /**
  * @swagger
- * /api/allrecipes:
+ * /api/userrecipes:
  *   get:
  *     tags:
  *       - Gets all recipes
@@ -373,6 +373,21 @@ router.post('/createrecipe', authenticateJWT, async(req, res, next) => {
 	var ret = {error: err};
 	res.status(200).json(ret);
 });
+
+router.post('/deleterecipe', authenticateJWT, async(req, res, next) => {
+	const title = sanitize(req.body.title);
+	const creator = sanitize(req.body.creator);
+
+	const db = client.db();
+
+	var err = '';
+	try{
+		const result = await db.collection('PublicRecipes').removeOne({"title": title, "creator": creator});
+	} catch(e) {
+		err = e.toString();
+	}
+	res.status(200).json({"error": err});
+})
 
 /**
  * @swagger
