@@ -83,19 +83,19 @@ router.post('/emailverification', async(req, res, next) => {
 
 	const code = sanitize(req.body.vericode);
 
-	const username = await db.collection('Users').findOne({"vericode": code});
+	const user = await db.collection('Users').findOne({"vericode": code});
 
 	const update = {
 		$set: {
-			username: username.username,
-			password: username.password,
+			username: user.username,
+			password: user.password,
 			email: username.email,
 			vericode: 0,
 			verified: true
 		}
 	};
 
-	const result = await db.collection('Users').updateOne(username, update, { upsert: true });
+	const result = await db.collection('Users').updateOne(user, update, { upsert: true });
 
 	var ret = { error: err };
 	res.status(200).json(ret);
@@ -387,7 +387,44 @@ router.post('/deleterecipe', authenticateJWT, async(req, res, next) => {
 		err = e.toString();
 	}
 	res.status(200).json({"error": err});
-})
+});
+
+router.post('/modifyrecipe', authenticateJWT, async(req, res, next) => {
+	const _id = sanitize(req.body._id);
+	const id = sanitize(req.body.id);
+	const title = sanitize(req.body.title);
+	const description = sanitize(req.body.description);
+	const servings = sanitize(req.body.servings);
+	const time = sanitize(req.body.time);
+	const store = sanitize(req.body.store);
+	const creator = sanitize(req.body.creator);
+	const ingredients = sanitize(req.body.ingredients);
+	const steps = sanitize(req.body.steps);
+	const likes = sanitize(req.body.likes);
+
+	const db = client.db();
+
+	const recipe = db.collection('PublicRecipes').findOne({_id: _id});
+
+	const update = {
+		$set: {
+			id: id,
+			title: title,
+			description: description,
+			servings: servings,
+			time: time,
+			store: store,
+			creator: creator,
+			ingredients: ingredients,
+			steps: steps,
+			likes: likes
+		}
+	};
+
+	const result = await db.collection('PublicRecipes').updateOne(recipe, update, { upsert: true });
+
+	res.status(200).json({error: ""});
+});
 
 /**
  * @swagger
