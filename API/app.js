@@ -52,11 +52,25 @@ const authenticateJWT = (req, res, next) => {
     }
 };
 
-router.post('/testingAuth', authenticateJWT, async(req, res, next) => {
-	res.status(200).json({"gotHere": "here"});
-});
-
-
+/**
+ * @swagger
+ * /api/emailverification:
+ *   post:
+ *     tags:
+ *       - Email Verification
+ *     description: Creates a user and sends an email to verify the user is human.
+ *     parameters:
+ *       - name: vericode
+ *         description: Users verification code
+ *         in: body
+ *         required: true
+ *         type: integer
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: error values
+ */
 router.post('/emailverification', async(req, res, next) => {
 
 	var err = '';
