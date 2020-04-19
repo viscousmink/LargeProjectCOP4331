@@ -17,8 +17,8 @@ const swaggerDefinition = {
 		version: '1.0.0',
 		description: 'API for the Food Manager COP4331 Large Project'
 	},
-	//host: 'largeprojectapifoodmanager.herokuapp.com/',
-	host: 'localhost:8000',
+	host: 'largeprojectapifoodmanager.herokuapp.com/',
+	//host: 'localhost:8000',
 	basePath: '/'
 };
 

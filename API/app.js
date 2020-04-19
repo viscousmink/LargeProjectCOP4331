@@ -238,7 +238,7 @@ router.get('/allrecipes', authenticateJWT, async(req, res, next) => {
  *       - Gets all recipes
  *     description: Gets an array of all recipes in the db.
  *     parameters:
- *       - in: path
+ *       - in: query
  *         name: user
  *         required: true
  *         schema:
