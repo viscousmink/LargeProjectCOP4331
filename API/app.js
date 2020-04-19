@@ -97,7 +97,35 @@ router.post('/emailverification', async(req, res, next) => {
 	res.status(200).json(ret);
 });
 
-
+/**
+ * @swagger
+ * /api/register:
+ *   post:
+ *     tags:
+ *       - Register
+ *     description: Creates a user and sends an email to verify the user is human.
+ *     parameters:
+ *       - name: user
+ *         description: User's username
+ *         in: body
+ *         required: true
+ *         type: string
+ *       - name: password
+ *         description: User's password
+ *         in: body
+ *         required: true
+ *         type: string
+ *       - name: email
+ *         description: User's email
+ *         in: body
+ *         required: true
+ *         type: string
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: error values
+ */
 router.post('/register', async(req, res, next) => {
 	const username = sanitize(req.body.username);
 	const password = sanitize(req.body.password);
@@ -174,7 +202,19 @@ router.post('/register', async(req, res, next) => {
 	}
 });
 
-
+/**
+ * @swagger
+ * /api/allrecipes:
+ *   get:
+ *     tags:
+ *       - Gets all recipes
+ *     description: Gets an array of all recipes in the db.
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: error values
+ */
 router.get('/allrecipes', authenticateJWT, async(req, res, next) => {
 	const db = client.db();
 
@@ -190,7 +230,25 @@ router.get('/allrecipes', authenticateJWT, async(req, res, next) => {
 	res.status(200).json(ret);
 });
 
-
+/**
+ * @swagger
+ * /api/userrecipes:
+ *   get:
+ *     tags:
+ *       - Gets all recipes
+ *     description: Gets an array of all recipes in the db.
+ *     parameters:
+ *       - in: path
+ *         name: user
+ *         required: true
+ *         schema:
+ *          type: string
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: error values
+ */
 router.get('/userrecipes', authenticateJWT, async(req, res, next) => {
 	console.log(req.query['username']);
 
@@ -211,7 +269,60 @@ router.get('/userrecipes', authenticateJWT, async(req, res, next) => {
 	res.status(200).json(ret);
 });
 
-
+/**
+ * @swagger
+ * /api/createrecipe:
+ *   post:
+ *     tags:
+ *       - CreateRecipe
+ *     description: Creates a recipe and stores it in the db
+ *     parameters:
+ *       - name: title
+ *         description: Title of the recipe
+ *         in: body
+ *         required: true
+ *         type: string
+ *       - name: description
+ *         description: description of the recipes
+ *         in: body
+ *         required: true
+ *         type: string
+ *       - name: servings
+ *         description: number of servings in the recipe
+ *         in: body
+ *         required: true
+ *         type: integer
+ *       - name: time
+ *         description: amount of time required to make the recipe
+ *         in: body
+ *         required: true
+ *         type: string
+ *       - name: store
+ *         description: place to purchase the ingredients
+ *         in: body
+ *         required: true
+ *         type: string
+ *       - name: creator
+ *         description: person who created the recipe
+ *         in: body
+ *         required: true
+ *         type: string
+ *       - name: ingredients
+ *         description: array of ingredients
+ *         in: body
+ *         required: true
+ *         type: array
+ *       - name: steps
+ *         description: array of steps
+ *         in: body
+ *         required: true
+ *         type: array
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: error values
+ */
 router.post('/createrecipe', authenticateJWT, async(req, res, next) => {
 	const title = sanitize(req.body.title);
 	const description = sanitize(req.body.description);
@@ -246,6 +357,30 @@ router.post('/createrecipe', authenticateJWT, async(req, res, next) => {
 	res.status(200).json(ret);
 });
 
+/**
+ * @swagger
+ * /api/deleterecipe:
+ *   post:
+ *     tags:
+ *       - Delete Recipe
+ *     description: Deletes a recipe
+ *     parameters:
+ *       - name: title
+ *         description: Recipe's name
+ *         in: body
+ *         required: true
+ *         type: string
+ *       - name: creator
+ *         description: Recipe's Creator
+ *         in: body
+ *         required: true
+ *         type: string
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: error values
+ */
 router.post('/deleterecipe', authenticateJWT, async(req, res, next) => {
 	const title = sanitize(req.body.title);
 	const creator = sanitize(req.body.creator);
@@ -261,6 +396,25 @@ router.post('/deleterecipe', authenticateJWT, async(req, res, next) => {
 	res.status(200).json({"error": err});
 });
 
+/**
+ * @swagger
+ * /api/searchrecipe:
+ *   post:
+ *     tags:
+ *       - Search Recipe
+ *     description: Searches a recipe
+ *     parameters:
+ *       - name: title
+ *         description: Recipe's name
+ *         in: body
+ *         required: true
+ *         type: string
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: error values
+ */
 router.get('/searchrecipe', authenticateJWT, async(req, res, next) => {
 	const title = req.query['title'];
 	const db = client.db();
@@ -280,6 +434,60 @@ router.get('/searchrecipe', authenticateJWT, async(req, res, next) => {
 	res.status(200).json(ret);
 });
 
+/**
+ * @swagger
+ * /api/modifyrecipe:
+ *   post:
+ *     tags:
+ *       - Modify Recipe
+ *     description: Modifies a recipe and stores it in the db
+ *     parameters:
+ *       - name: title
+ *         description: Title of the recipe
+ *         in: body
+ *         required: true
+ *         type: string
+ *       - name: description
+ *         description: description of the recipes
+ *         in: body
+ *         required: true
+ *         type: string
+ *       - name: servings
+ *         description: number of servings in the recipe
+ *         in: body
+ *         required: true
+ *         type: integer
+ *       - name: time
+ *         description: amount of time required to make the recipe
+ *         in: body
+ *         required: true
+ *         type: string
+ *       - name: store
+ *         description: place to purchase the ingredients
+ *         in: body
+ *         required: true
+ *         type: string
+ *       - name: creator
+ *         description: person who created the recipe
+ *         in: body
+ *         required: true
+ *         type: string
+ *       - name: ingredients
+ *         description: array of ingredients
+ *         in: body
+ *         required: true
+ *         type: array
+ *       - name: steps
+ *         description: array of steps
+ *         in: body
+ *         required: true
+ *         type: array
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: error values
+ */
 router.post('/modifyrecipe', authenticateJWT, async(req, res, next) => {
 	const _id = sanitize(req.body._id);
 	const title = sanitize(req.body.title);
@@ -315,7 +523,30 @@ router.post('/modifyrecipe', authenticateJWT, async(req, res, next) => {
 	res.status(200).json({error: ""});
 });
 
-
+/**
+ * @swagger
+ * /api/login:
+ *   post:
+ *     tags:
+ *       - Login
+ *     description: Creates a user and sends an email to verify the user is human.
+ *     parameters:
+ *       - name: user
+ *         description: User's username
+ *         in: body
+ *         required: true
+ *         type: string
+ *       - name: password
+ *         description: User's password
+ *         in: body
+ *         required: true
+ *         type: string
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: error values
+ */
 router.post('/login', async (req, res) => {
 
 	const username = sanitize(req.body.username);
