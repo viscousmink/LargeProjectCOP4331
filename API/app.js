@@ -280,7 +280,7 @@ router.post('/modifyrecipe', authenticateJWT, async(req, res, next) => {
 
 	const db = client.db();
 
-	const recipe = db.collection('PublicRecipes').findOne({_id: _id});
+	//const recipe = await db.collection('PublicRecipes').findOne({_id: _id});
 
 	const update = {
 		$set: {
@@ -296,7 +296,7 @@ router.post('/modifyrecipe', authenticateJWT, async(req, res, next) => {
 		}
 	};
 
-	const result = await db.collection('PublicRecipes').updateOne(recipe, update, { upsert: true });
+	const result = await db.collection('PublicRecipes').updateOne({title: title}, update, { upsert: false });
 
 	res.status(200).json({error: ""});
 });

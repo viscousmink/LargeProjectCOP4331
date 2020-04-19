@@ -4,9 +4,12 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const database = require('./database.js');
 const path = require('path');
+const cors = require('cors');
 
 const app = express();
 const swaggerJSDoc = require('swagger-jsdoc');
+
+app.use(cors());
 
 const swaggerDefinition = {
 	info: {
@@ -26,18 +29,21 @@ const options = {
 
 var swaggerSpec = swaggerJSDoc(options);
 
-app.get('/swagger.json', function(req, res) {
-	res.setHeader('Content-Type', 'application/json');
-	res.send(swaggerSpec);
-})
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
   next();
 });
+
+app.get('/swagger.json', (req, res) => {
+	res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "GET");
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
+});
+
 app.use('/api', require('./API/app.js'));
 
 // Serve any static files
