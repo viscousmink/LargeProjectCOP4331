@@ -62,7 +62,7 @@ const authenticateJWT = (req, res, next) => {
  *     parameters:
  *       - name: vericode
  *         description: Users verification code
- *         in: body
+ *         in: query
  *         required: true
  *         type: integer
  *     produces:
@@ -71,27 +71,27 @@ const authenticateJWT = (req, res, next) => {
  *       200:
  *         description: error values
  */
-router.post('/emailverification', async(req, res, next) => {
+router.get('/emailverification', async(req, res, next) => {
 
 	var err = '';
 
 	const db = client.db();
 
-	const code = sanitize(req.body.vericode);
+	const code = Number(req.query['veri']);
 
-	const user = await db.collection('Users').findOne({"vericode": code});
+	//const user = await db.collection('Users').findOne({"vericode": code});
 
-	const update = {
-		$set: {
-			username: user.username,
-			password: user.password,
-			email: username.email,
-			vericode: 0,
-			verified: true
-		}
-	};
+	//const update = {
+	//	$set: {
+	//		username: user.username,
+	//		password: user.password,
+	//		email: username.email,
+	//		vericode: 0,
+	//		verified: true
+	//	}
+	//};
 
-	const result = await db.collection('Users').updateOne(user, update, { upsert: true });
+	const result = await db.collection('Users').updateMany({vericode: code}, {$set: {vericode: 0, verified: true}}, { upsert: false });
 
 	var ret = { error: err };
 	res.status(200).json(ret);
@@ -178,7 +178,7 @@ router.post('/register', async(req, res, next) => {
 			from: 'COP4331largeproject@gmail.com',
 			to: `${email}`,
 			subject: 'Email Verification',
-			text: `Please go to ... and enter ${code} to verify your account!`
+			text: `Please go to https:largeprojectapifoodmanager.herokuapp.com/api/emailverification/?veri=${code} to verify your account!`
 		};
 
 		transporter.sendMail(mailOptions, function(error, info){
