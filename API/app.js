@@ -56,25 +56,7 @@ router.post('/testingAuth', authenticateJWT, async(req, res, next) => {
 	res.status(200).json({"gotHere": "here"});
 });
 
-/**
- * @swagger
- * /api/emailverification:
- *   post:
- *     tags:
- *       - Email Verification
- *     description: Creates a user and sends an email to verify the user is human.
- *     parameters:
- *       - name: vericode
- *         description: User's verification code
- *         in: body
- *         required: true
- *         type: integer
- *     produces:
- *       - application/json
- *     responses:
- *       200:
- *         description: error values
- */
+
 router.post('/emailverification', async(req, res, next) => {
 
 	var err = '';
@@ -101,35 +83,7 @@ router.post('/emailverification', async(req, res, next) => {
 	res.status(200).json(ret);
 });
 
-/**
- * @swagger
- * /api/register:
- *   post:
- *     tags:
- *       - Register
- *     description: Creates a user and sends an email to verify the user is human.
- *     parameters:
- *       - name: user
- *         description: User's username
- *         in: body
- *         required: true
- *         type: string
- *       - name: password
- *         description: User's password
- *         in: body
- *         required: true
- *         type: string
- *       - name: email
- *         description: User's email
- *         in: body
- *         required: true
- *         type: string
- *     produces:
- *       - application/json
- *     responses:
- *       200:
- *         description: error values
- */
+
 router.post('/register', async(req, res, next) => {
 	const username = sanitize(req.body.username);
 	const password = sanitize(req.body.password);
@@ -206,20 +160,7 @@ router.post('/register', async(req, res, next) => {
 	}
 });
 
-/**
- * @swagger
- * /api/allrecipes:
- *   get:
- *     tags:
- *       - Gets all recipes
- *     description: Gets an array of all recipes in the db.
- *     parameters:
- *     produces:
- *       - application/json
- *     responses:
- *       200:
- *         description: error values
- */
+
 router.get('/allrecipes', authenticateJWT, async(req, res, next) => {
 	const db = client.db();
 
@@ -235,25 +176,7 @@ router.get('/allrecipes', authenticateJWT, async(req, res, next) => {
 	res.status(200).json(ret);
 });
 
-/**
- * @swagger
- * /api/userrecipes:
- *   get:
- *     tags:
- *       - Gets all recipes
- *     description: Gets an array of all recipes in the db.
- *     parameters:
- *       - in: query
- *         name: user
- *         required: true
- *         schema:
- *          type: string
- *     produces:
- *       - application/json
- *     responses:
- *       200:
- *         description: error values
- */
+
 router.get('/userrecipes', authenticateJWT, async(req, res, next) => {
 	console.log(req.query['username']);
 
@@ -274,70 +197,7 @@ router.get('/userrecipes', authenticateJWT, async(req, res, next) => {
 	res.status(200).json(ret);
 });
 
-/**
- * @swagger
- * /api/createrecipe:
- *   post:
- *     tags:
- *       - CreateRecipe
- *     description: Creates a recipe and stores it in the db
- *     parameters:
- *       - name: id
- *         description: id
- *         in: body
- *         required: true
- *         type: string
- *       - name: title
- *         description: Title of the recipe
- *         in: body
- *         required: true
- *         type: string
- *       - name: description
- *         description: description of the recipes
- *         in: body
- *         required: true
- *         type: string
- *       - name: servings
- *         description: number of servings in the recipe
- *         in: body
- *         required: true
- *         type: integer
- *       - name: time
- *         description: amount of time required to make the recipe
- *         in: body
- *         required: true
- *         type: string
- *       - name: store
- *         description: place to purchase the ingredients
- *         in: body
- *         required: true
- *         type: string
- *       - name: creator
- *         description: person who created the recipe
- *         in: body
- *         required: true
- *         type: string
- *       - name: ingredients
- *         description: array of ingredients
- *         in: body
- *         required: true
- *         type: array
- *       - name: steps
- *         description: array of steps
- *         in: body
- *         required: true
- *         type: array
- *       - name: likes
- *         description: number of likes
- *         in: body
- *         required: true
- *         type: integer
- *     produces:
- *       - application/json
- *     responses:
- *       200:
- *         description: error values
- */
+
 router.post('/createrecipe', authenticateJWT, async(req, res, next) => {
 	const title = sanitize(req.body.title);
 	const description = sanitize(req.body.description);
@@ -351,7 +211,6 @@ router.post('/createrecipe', authenticateJWT, async(req, res, next) => {
 
 	const newPublicRecipe = {
 		_id: new mongoose.Types.ObjectId(),
-		id: id,
 		title: title,
 		description: description,
 		servings: servings,
@@ -425,7 +284,6 @@ router.post('/modifyrecipe', authenticateJWT, async(req, res, next) => {
 
 	const update = {
 		$set: {
-			id: id,
 			title: title,
 			description: description,
 			servings: servings,
@@ -443,30 +301,7 @@ router.post('/modifyrecipe', authenticateJWT, async(req, res, next) => {
 	res.status(200).json({error: ""});
 });
 
-/**
- * @swagger
- * /api/login:
- *   post:
- *     tags:
- *       - Login
- *     description: Creates a user and sends an email to verify the user is human.
- *     parameters:
- *       - name: user
- *         description: User's username
- *         in: body
- *         required: true
- *         type: string
- *       - name: password
- *         description: User's password
- *         in: body
- *         required: true
- *         type: string
- *     produces:
- *       - application/json
- *     responses:
- *       200:
- *         description: error values
- */
+
 router.post('/login', async (req, res) => {
 
 	const username = sanitize(req.body.username);
