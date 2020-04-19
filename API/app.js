@@ -339,7 +339,6 @@ router.get('/userrecipes', authenticateJWT, async(req, res, next) => {
  *         description: error values
  */
 router.post('/createrecipe', authenticateJWT, async(req, res, next) => {
-	const id = sanitize(req.body.id);
 	const title = sanitize(req.body.title);
 	const description = sanitize(req.body.description);
 	const servings = sanitize(req.body.servings);
@@ -348,7 +347,7 @@ router.post('/createrecipe', authenticateJWT, async(req, res, next) => {
 	const creator = sanitize(req.body.creator);
 	const ingredients = sanitize(req.body.ingredients);
 	const steps = sanitize(req.body.steps);
-	const likes = sanitize(req.body.likes);
+	//const likes = sanitize(req.body.likes);
 
 	const newPublicRecipe = {
 		_id: new mongoose.Types.ObjectId(),
@@ -361,7 +360,7 @@ router.post('/createrecipe', authenticateJWT, async(req, res, next) => {
 		creator: creator,
 		ingredients: ingredients,
 		steps: steps,
-		likes: likes
+		//likes: likes
 	};
 	const db = client.db();
 	var err = '';
@@ -410,7 +409,6 @@ router.get('/searchrecipe', authenticateJWT, async(req, res, next) => {
 
 router.post('/modifyrecipe', authenticateJWT, async(req, res, next) => {
 	const _id = sanitize(req.body._id);
-	const id = sanitize(req.body.id);
 	const title = sanitize(req.body.title);
 	const description = sanitize(req.body.description);
 	const servings = sanitize(req.body.servings);
@@ -419,7 +417,7 @@ router.post('/modifyrecipe', authenticateJWT, async(req, res, next) => {
 	const creator = sanitize(req.body.creator);
 	const ingredients = sanitize(req.body.ingredients);
 	const steps = sanitize(req.body.steps);
-	const likes = sanitize(req.body.likes);
+	//const likes = sanitize(req.body.likes);
 
 	const db = client.db();
 
@@ -436,7 +434,7 @@ router.post('/modifyrecipe', authenticateJWT, async(req, res, next) => {
 			creator: creator,
 			ingredients: ingredients,
 			steps: steps,
-			likes: likes
+			//likes: likes
 		}
 	};
 
