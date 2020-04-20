@@ -97,6 +97,36 @@ router.get('/emailverification', async(req, res, next) => {
 	res.status(200).json(ret);
 });
 
+
+/**
+ * @swagger
+ * /api/resetpassword:
+ *   post:
+ *     tags:
+ *       - Reset Password
+ *     description: Creates a user and sends an email to verify the user is human.
+ *     parameters:
+ *       - name: user
+ *         description: User's username
+ *         in: body
+ *         required: true
+ *         type: string
+ *       - name: password
+ *         description: User's new password
+ *         in: body
+ *         required: true
+ *         type: string
+ *       - name: email
+ *         description: User's email
+ *         in: body
+ *         required: true
+ *         type: string
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: error values
+ */
 router.post('/resetpassword', async(req, res, next) => {
 	const db = client.db();
 
