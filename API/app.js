@@ -613,7 +613,7 @@ router.post('/modifyrecipe', authenticateJWT, async(req, res, next) => {
  *           required:
  *             - username
  *             - password
- *     response:
+ *     responses:
  *       200:
  *         description: Logged in
  *         schema:
