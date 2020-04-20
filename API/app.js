@@ -452,17 +452,13 @@ router.post('/deleterecipe', authenticateJWT, async(req, res, next) => {
  *     tags:
  *       - Search Recipe
  *     description: Searches a recipe
- *     parameters:
- *       - name: title
- *         description: Recipe's name
- *         in: body
- *         required: true
- *         type: string
- *     produces:
- *       - application/json
- *     responses:
- *       200:
- *         description: error values
+ *     requestBody:
+ *       content:
+ *         application/x-www-form-urlencoded:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title: string
  */
 router.get('/searchrecipe', authenticateJWT, async(req, res, next) => {
 	const title = req.query['title'];
