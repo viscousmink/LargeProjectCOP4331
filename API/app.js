@@ -594,23 +594,35 @@ router.post('/modifyrecipe', authenticateJWT, async(req, res, next) => {
  *   post:
  *     tags:
  *       - Login
- *     description: Creates a user and sends an email to verify the user is human.
- *     parameters:
- *       - name: user
- *         description: User's username
- *         in: body
- *         required: true
- *         type: string
- *       - name: password
- *         description: User's password
- *         in: body
- *         required: true
- *         type: string
+ *     name: Login
+ *     summary: Logs a user in by passing a JWT
  *     produces:
  *       - application/json
- *     responses:
+ *     consumes:
+ *       - application/json
+ *     parameters:
+ *       - name: body
+ *         in: body
+ *         schema:
+ *           type: object
+ *           properties:
+ *             username:
+ *               type: string
+ *             password:
+ *               type: string
+ *           required:
+ *             - username
+ *             - password
+ *     response:
  *       200:
- *         description: error values
+ *         description: Logged in
+ *         schema:
+ *           type: object
+ *           properties:
+ *             token:
+ *               type: string
+ *             required:
+ *               - token
  */
 router.post('/login', async (req, res) => {
 
