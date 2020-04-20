@@ -109,7 +109,7 @@ router.post('/resetpassword', async(req, res, next) => {
 
 	const result = await db.collection('Users').updateOne({username: username, email: email}, {$set: {password: hash}});
 
-	if(result)
+	if(result.body)
 		res.status(200).json({error: ""});
 	else {
 		res.status(200).json({error: "user_not_found"});
