@@ -97,6 +97,25 @@ router.get('/emailverification', async(req, res, next) => {
 	res.status(200).json(ret);
 });
 
+router.post('/resetpassword', async(req, res, next) => {
+	const db = client.db();
+
+	const username = sanitize(req.body.username);
+	const email = sanitize(req.body.email);
+	const password = sanitize(req.body.password);
+
+	var salt = bcrypt.genSaltSync(10);
+	var hash = bcrypt.hashSync(password, salt);
+
+	const result = await db.collection('Users').updateOne({username: username, email: email}, {$set: {password: hash}});
+
+	if(result)
+		res.status(200).json({error: ""});
+	else {
+		res.status(200).json({error: "user_not_found"});
+	}
+})
+
 /**
  * @swagger
  * /api/register:
