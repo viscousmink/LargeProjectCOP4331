@@ -451,16 +451,22 @@ router.post('/deleterecipe', authenticateJWT, async(req, res, next) => {
  *   post:
  *     tags:
  *       - Search Recipe
- *     description: Searches a recipe
- *     parameter:
- *       - in: body
- *         name: recipe
- *         description: the recipe to search
+ *     name: Search Recipe
+ *     summary: Searches a recipe
+ *     produces:
+ *       - application/json
+ *     consumes:
+ *       - application/json
+ *     parameters:
+ *       - name: body
+ *         in: body
  *         schema:
  *           type: object
- *           required:
+ *           properties:
  *             title:
  *               type: string
+ *           required:
+ *             - title
  *     response:
  *       200:
  *         description: Searched
