@@ -452,9 +452,10 @@ router.post('/deleterecipe', authenticateJWT, async(req, res, next) => {
  *     tags:
  *       - Search Recipe
  *     description: Searches a recipe
- *     requestBody:
- *       content:
- *         application/x-www-form-urlencoded:
+ *     parameter:
+ *       - in: body
+ *         name: recipe
+ *         description: the recipe to search
  *           schema:
  *             type: object
  *             properties:
