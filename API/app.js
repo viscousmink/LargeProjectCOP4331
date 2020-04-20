@@ -590,7 +590,7 @@ router.post('/modifyrecipe', authenticateJWT, async(req, res, next) => {
 
 /**
  * @swagger
- * /api/login:
+ * api/login:
  *   post:
  *     tags:
  *       - Login
