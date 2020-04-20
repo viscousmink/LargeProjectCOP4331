@@ -138,8 +138,9 @@ router.post('/resetpassword', async(req, res, next) => {
 	var hash = bcrypt.hashSync(password, salt);
 
 	const result = await db.collection('Users').updateOne({username: username, email: email}, {$set: {password: hash}});
+	console.log(result.modifiedCount);
 
-	if(result.body)
+	if(result.modifiedCount != 0)
 		res.status(200).json({error: ""});
 	else {
 		res.status(200).json({error: "user_not_found"});
