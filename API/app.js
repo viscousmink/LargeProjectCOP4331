@@ -445,7 +445,22 @@ router.post('/deleterecipe', authenticateJWT, async(req, res, next) => {
 	res.status(200).json({"error": err});
 });
 
-
+/**
+ * @swagger
+ * /api/searchrecipe:
+ *   post:
+ *     tags:
+ *       - Search Recipe
+ *     description: Searches a recipe
+ *     parameter:
+ *       - in: body
+ *         name: recipe
+ *         description: the recipe to search
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title: string
+ */
 router.get('/searchrecipe', authenticateJWT, async(req, res, next) => {
 	const title = req.query['title'];
 	const db = client.db();
