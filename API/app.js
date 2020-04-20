@@ -470,6 +470,15 @@ router.post('/deleterecipe', authenticateJWT, async(req, res, next) => {
  *     response:
  *       200:
  *         description: Searched
+ *         schema:
+ *           type: object
+ *           properties:
+ *             results:
+ *               type: object
+ *             error:
+ *               type: string
+ *             required:
+ *               - results
  */
 router.get('/searchrecipe', authenticateJWT, async(req, res, next) => {
 	const title = req.query['title'];
