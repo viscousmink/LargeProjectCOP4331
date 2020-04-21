@@ -260,11 +260,16 @@ router.post('/register', async(req, res, next) => {
   *       - All Recipes
   *     name: All Recipes
   *     summary: Gets all recipes from the DB
-  *     security:
-  *       - Bearer:
-  *         type: apiKey
-  *         name: Authorization
+  *     parameters:
+  *       - name: header
   *         in: header
+  *         schema:
+  *           type: object
+  *           properties:
+  *             Authorization:
+  *               type: string
+  *         required:
+  *           - Authorization
   *     produces:
   *       - application/json
   *     consumes:
@@ -276,7 +281,7 @@ router.post('/register', async(req, res, next) => {
   *           type: object
   *           properties:
   *             token:
-  *               type: string
+  *               results: string
   *             required:
   *               - token
   */
