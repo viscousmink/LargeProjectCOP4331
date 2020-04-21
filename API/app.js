@@ -276,7 +276,7 @@ router.post('/register', async(req, res, next) => {
   *       - application/json
   *     responses:
   *       200:
-  *         description: Logged in
+  *         description: Success
   *         schema:
   *           type: object
   *           properties:
