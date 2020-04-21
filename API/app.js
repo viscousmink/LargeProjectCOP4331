@@ -343,8 +343,7 @@ router.get('/allrecipes', authenticateJWT, async(req, res, next) => {
   *               type: string
   *       - in: query
   *           name: username
-  *           schema:
-  *             type: string
+  *           type: string
   *         required:
   *           - Authorization
   *           - username
