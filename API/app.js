@@ -8,6 +8,8 @@ const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const MongoClient = require('mongodb').MongoClient;
 const jwt = require('jsonwebtoken');
+const { google } = require("googleapis");
+const OAuth2 = google.auth.OAuth2;
 
 const client = new MongoClient(database.URL, {
 	useUnifiedTopology: true,
@@ -181,6 +183,28 @@ router.post('/register', async(req, res, next) => {
 	const password = sanitize(req.body.password);
 	const email = sanitize(req.body.email);
 
+	const oauth2Client = new OAuth2(
+     process.env.clientID, // ClientID
+     process.env.clientSecret, // Client Secret
+     "https://developers.google.com/oauthplayground" // Redirect URL
+	);
+
+	oauth2Client.setCredentials({
+     refresh_token: process.env.refreshToken
+	});
+	const accessToken = oauth2Client.getAccessToken();
+
+	const smtpTransport = nodemailer.createTransport({
+     service: "gmail",
+     auth: {
+          type: "OAuth2",
+          user: "COP4331largeproject@gmail.com",
+          clientId: process.env.clientID,
+          clientSecret: process.env.clientSecret,
+          refreshToken: process.env.refreshToken,
+          accessToken: accessToken
+     }});
+
 	const db = client.db();
 
 	const userNameCheck = await db.collection('Users').findOne({"username": username});
@@ -232,7 +256,7 @@ router.post('/register', async(req, res, next) => {
 			text: `Please go to https:largeprojectapifoodmanager.herokuapp.com/api/emailverification/?veri=${code} to verify your account!`
 		};
 
-		/*transporter.sendMail(mailOptions, function(error, info){
+		smtpTransport.sendMail(mailOptions, function(error, info){
 			if (error) {
 				console.log(error);
 			} else {
@@ -241,21 +265,7 @@ router.post('/register', async(req, res, next) => {
 			if(error) {
 				err = error;
 			}
-		}); */
-
-		const send = require('gmail-send')({
-			user: 'COP4331largeproject@gmail.com',
-			pass: process.env.DBPASSWORD,
-			to: `${email}`,
-			subject: 'Email Verification',
 		});
-
-		send({
-		  text:    `Please go to https:largeprojectapifoodmanager.herokuapp.com/api/emailverification/?veri=${code} to verify your account!`,
-		}, (error, result, fullResult) => {
-		  if (error) console.error(error);
-		  console.log(result);
-		})
 
 		try {
 			const result = await db.collection('Users').insertOne(newUser);
