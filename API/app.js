@@ -442,6 +442,15 @@ router.post('/createrecipe', authenticateJWT, async(req, res, next) => {
  *       - Delete Recipe
  *     description: Deletes a recipe
  *     parameters:
+ *       - name: Authorization
+ *         in: header
+ *         schema:
+ *           type: object
+ *           properties:
+ *             Authorization:
+ *               type: string
+ *             required:
+ *               - Authorization
  *       - name: body
  *         in: body
  *         schema:
