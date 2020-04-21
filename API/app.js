@@ -252,19 +252,47 @@ router.post('/register', async(req, res, next) => {
 	}
 });
 
-/**
- * @swagger
- * /api/allrecipes:
- *   get:
- *     tags:
- *       - Gets all recipes
- *     description: Gets an array of all recipes in the db.
- *     produces:
- *       - application/json
- *     responses:
- *       200:
- *         description: error values
- */
+ /**
+  * @swagger
+  * api/allrecipes:
+  *   get:
+  *     tags:
+  *       - All Recipes
+  *     name: All Recipes
+  *     summary: Gets all recipes from the DB
+  *     security:
+  *       bearerAuth:
+  *         type: http
+  *         scheme: bearer
+  *         bearerFormat: JWT
+  *     produces:
+  *       - application/json
+  *     consumes:
+  *       - application/json
+  *     parameters:
+  *       - name: header
+  *         in: header
+  *         schema:
+  *           type: object
+  *           properties:
+  *             username:
+  *               type: string
+  *             password:
+  *               type: string
+  *           required:
+  *             - username
+  *             - password
+  *     responses:
+  *       200:
+  *         description: Logged in
+  *         schema:
+  *           type: object
+  *           properties:
+  *             token:
+  *               type: string
+  *             required:
+  *               - token
+  */
 router.get('/allrecipes', authenticateJWT, async(req, res, next) => {
 	const db = client.db();
 
