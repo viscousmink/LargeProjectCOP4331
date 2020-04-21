@@ -102,7 +102,7 @@ router.get('/emailverification', async(req, res, next) => {
 
 /**
  * @swagger
- * /api/resetpassword:
+ * api/resetpassword:
  *   post:
  *     tags:
  *       - Reset Password
@@ -151,27 +151,27 @@ router.post('/resetpassword', async(req, res, next) => {
 
 /**
  * @swagger
- * /api/register:
+ * api/register:
  *   post:
  *     tags:
  *       - Register
  *     description: Creates a user and sends an email to verify the user is human.
  *     parameters:
- *       - name: user
- *         description: User's username
+ *       - name: body
  *         in: body
- *         required: true
- *         type: string
- *       - name: password
- *         description: User's password
- *         in: body
- *         required: true
- *         type: string
- *       - name: email
- *         description: User's email
- *         in: body
- *         required: true
- *         type: string
+ *         schema:
+ *           type: object
+ *           properties:
+ *             username:
+ *               type: string
+ *             password:
+ *               type: string
+ *             email:
+ *               type: string
+ *           required:
+ *             - username
+ *             - password
+ *             - email
  *     produces:
  *       - application/json
  *     responses:
@@ -348,7 +348,7 @@ router.get('/userrecipes', authenticateJWT, async(req, res, next) => {
 
 /**
  * @swagger
- * /api/createrecipe:
+ * api/createrecipe:
  *   post:
  *     tags:
  *       - CreateRecipe
@@ -436,22 +436,24 @@ router.post('/createrecipe', authenticateJWT, async(req, res, next) => {
 
 /**
  * @swagger
- * /api/deleterecipe:
+ * api/deleterecipe:
  *   post:
  *     tags:
  *       - Delete Recipe
  *     description: Deletes a recipe
  *     parameters:
- *       - name: title
- *         description: Recipe's name
+ *       - name: body
  *         in: body
- *         required: true
- *         type: string
- *       - name: creator
- *         description: Recipe's Creator
- *         in: body
- *         required: true
- *         type: string
+ *         schema:
+ *           type: object
+ *           properties:
+ *             title:
+ *               type: string
+ *             creator:
+ *               type: string
+ *           required:
+ *             - title
+ *             - creator
  *     produces:
  *       - application/json
  *     responses:
@@ -475,7 +477,7 @@ router.post('/deleterecipe', authenticateJWT, async(req, res, next) => {
 
 /**
  * @swagger
- * /api/searchrecipe:
+ * api/searchrecipe:
  *   post:
  *     tags:
  *       - Search Recipe
@@ -529,7 +531,7 @@ router.get('/searchrecipe', authenticateJWT, async(req, res, next) => {
 
 /**
  * @swagger
- * /api/modifyrecipe:
+ * api/modifyrecipe:
  *   post:
  *     tags:
  *       - Modify Recipe
