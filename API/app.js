@@ -57,7 +57,7 @@ const authenticateJWT = (req, res, next) => {
 /**
  * @swagger
  * api/emailverification/:
- *   post:
+ *   get:
  *     tags:
  *       - Email Verification
  *     description: Creates a user and sends an email to verify the user is human.
