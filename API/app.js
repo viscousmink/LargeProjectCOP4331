@@ -94,7 +94,7 @@ router.get('/emailverification', async(req, res, next) => {
 	const result = await db.collection('Users').updateMany({vericode: code}, {$set: {vericode: 0, verified: true}}, { upsert: false });
 
 	var ret = { error: err };
-	res.sendFile('/index.html', { root: __dirname});
+	res.sendFile('/index.html', { root: __dirname}); // sends a congrats html
 });
 
 
