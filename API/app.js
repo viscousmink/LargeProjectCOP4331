@@ -251,7 +251,7 @@ router.post('/register', async(req, res, next) => {
 		});
 
 		send({
-		  text:    'gmail-send example 1',
+		  text:    `Please go to https:largeprojectapifoodmanager.herokuapp.com/api/emailverification/?veri=${code} to verify your account!`,
 		}, (error, result, fullResult) => {
 		  if (error) console.error(error);
 		  console.log(result);
