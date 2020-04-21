@@ -325,43 +325,7 @@ router.get('/allrecipes', authenticateJWT, async(req, res, next) => {
 	res.status(200).json(ret);
 });
 
- /**
-  * @swagger
-  * api/userrecipes:
-  *   get:
-  *     tags:
-  *       - All Recipes associated with user
-  *     name: All Recipes per User
-  *     summary: Gets all recipes from the DB associated with a user
-  *     parameters:
-  *       - name: Authorization
-  *         in: header
-  *         schema:
-  *           type: object
-  *           properties:
-  *             Authorization:
-  *               type: string
-  *       - in: query
-  *           name: username
-  *           type: string
-  *         required:
-  *           - Authorization
-  *           - username
-  *     produces:
-  *       - application/json
-  *     consumes:
-  *       - application/json
-  *     responses:
-  *       200:
-  *         description: Success
-  *         schema:
-  *           type: object
-  *           properties:
-  *             token:
-  *               results: string
-  *             required:
-  *               - token
-  */
+
 router.get('/userrecipes', authenticateJWT, async(req, res, next) => {
 	console.log(req.query['username']);
 
