@@ -62,7 +62,7 @@ const authenticateJWT = (req, res, next) => {
  *       - Email Verification
  *     description: Creates a user and sends an email to verify the user is human.
  *     parameters:
- *       - name: vericode
+ *       - name: veri
  *         description: Users verification code
  *         in: query
  *         required: true
