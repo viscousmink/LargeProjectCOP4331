@@ -261,7 +261,7 @@ router.post('/register', async(req, res, next) => {
   *     name: All Recipes
   *     summary: Gets all recipes from the DB
   *     security:
-  *       Bearer:
+  *       - Bearer:
   *         type: apiKey
   *         name: Authorization
   *         in: header
