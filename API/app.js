@@ -219,6 +219,7 @@ router.post('/register', async(req, res, next) => {
 		var transporter = nodemailer.createTransport({
 			service: 'gmail',
 				auth: {
+					secure: true,
 					user: 'COP4331largeproject@gmail.com',
 					pass: process.env.DBPASSWORD
 				}
