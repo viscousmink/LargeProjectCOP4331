@@ -261,27 +261,14 @@ router.post('/register', async(req, res, next) => {
   *     name: All Recipes
   *     summary: Gets all recipes from the DB
   *     security:
-  *       bearerAuth:
-  *         type: http
-  *         scheme: bearer
-  *         bearerFormat: JWT
+  *       Bearer:
+  *         type: apiKey
+  *         name: Authorization
+  *         in: header
   *     produces:
   *       - application/json
   *     consumes:
   *       - application/json
-  *     parameters:
-  *       - name: header
-  *         in: header
-  *         schema:
-  *           type: object
-  *           properties:
-  *             username:
-  *               type: string
-  *             password:
-  *               type: string
-  *           required:
-  *             - username
-  *             - password
   *     responses:
   *       200:
   *         description: Logged in
