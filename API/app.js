@@ -261,7 +261,7 @@ router.post('/register', async(req, res, next) => {
   *     name: All Recipes
   *     summary: Gets all recipes from the DB
   *     parameters:
-  *       - name: header
+  *       - name: Authorization
   *         in: header
   *         schema:
   *           type: object
