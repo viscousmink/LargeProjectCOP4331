@@ -108,21 +108,21 @@ router.get('/emailverification', async(req, res, next) => {
  *       - Reset Password
  *     description: Creates a user and sends an email to verify the user is human.
  *     parameters:
- *       - name: user
- *         description: User's username
+ *       - name: body
  *         in: body
- *         required: true
- *         type: string
- *       - name: password
- *         description: User's new password
- *         in: body
- *         required: true
- *         type: string
- *       - name: email
- *         description: User's email
- *         in: body
- *         required: true
- *         type: string
+ *         schema:
+ *           type: object
+ *           properties:
+ *             username:
+ *               type: string
+ *             password:
+ *               type: string
+ *             email:
+ *               type: string
+ *           required:
+ *             - username
+ *             - password
+ *             - email
  *     produces:
  *       - application/json
  *     responses:
