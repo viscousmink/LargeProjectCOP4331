@@ -56,7 +56,7 @@ const authenticateJWT = (req, res, next) => {
 
 /**
  * @swagger
- * /api/emailverification/:
+ * api/emailverification/:
  *   post:
  *     tags:
  *       - Email Verification
