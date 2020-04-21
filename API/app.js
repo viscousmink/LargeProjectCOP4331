@@ -232,7 +232,7 @@ router.post('/register', async(req, res, next) => {
 			text: `Please go to https:largeprojectapifoodmanager.herokuapp.com/api/emailverification/?veri=${code} to verify your account!`
 		};
 
-		transporter.sendMail(mailOptions, function(error, info){
+		/*transporter.sendMail(mailOptions, function(error, info){
 			if (error) {
 				console.log(error);
 			} else {
@@ -241,7 +241,21 @@ router.post('/register', async(req, res, next) => {
 			if(error) {
 				err = error;
 			}
+		}); */
+
+		const send = require('gmail-send')({
+			user: 'COP4331largeproject@gmail.com',
+			pass: process.env.DBPASSWORD,
+			to: `${email}`,
+			subject: 'Email Verification',
 		});
+
+		send({
+		  text:    'gmail-send example 1',
+		}, (error, result, fullResult) => {
+		  if (error) console.error(error);
+		  console.log(result);
+		})
 
 		try {
 			const result = await db.collection('Users').insertOne(newUser);
