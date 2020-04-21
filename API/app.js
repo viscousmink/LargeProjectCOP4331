@@ -344,6 +344,42 @@ router.get('/allrecipes', authenticateJWT, async(req, res, next) => {
  *       200:
  *         description: error values
  */
+ /**
+  * @swagger
+  * api/userrecipes:
+  *   get:
+  *     tags:
+  *       - All Recipes associated with user
+  *     name: All Recipes per User
+  *     summary: Gets all recipes from the DB associated with a user
+  *     parameters:
+  *       - name: Authorization
+  *         in: header
+  *         schema:
+  *           type: object
+  *           properties:
+  *             Authorization:
+  *               type: string
+  *         required:
+  *           - Authorization
+  *       - name: username
+  *         in: query
+  *           type: string
+  *     produces:
+  *       - application/json
+  *     consumes:
+  *       - application/json
+  *     responses:
+  *       200:
+  *         description: Success
+  *         schema:
+  *           type: object
+  *           properties:
+  *             token:
+  *               results: string
+  *             required:
+  *               - token
+  */
 router.get('/userrecipes', authenticateJWT, async(req, res, next) => {
 	console.log(req.query['username']);
 
