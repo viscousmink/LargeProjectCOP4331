@@ -31,7 +31,7 @@
     "gmail-send": "^1.8.10",
     "googleapis": "^49.0.0",
     "jsonwebtoken": "^8.5.1",
-    "mocha": "^7.1.1",
+    "mocha": "^10.2.0",
     "mongo-sanitize": "^1.0.1",
     "mongodb": "^3.5.3",
     "mongoose": "^5.8.11",
